@@ -92,25 +92,35 @@ sudo apt-get install vim
 
 - - - -
 ## __Step 3__
-In this step we will set up an RSA key. This key will allow us to connect to the machine without using a password. For this we will need  
+In this step we will set up an RSA key. This key will allow us to connect to the machine without using a password.  
 
-
-pour virer mdp, changer ca vers ca
-```
-sudo nano /etc/ssh/ssh_config
-```
-```
-PasswordAuthentication yes -> PasswordAuthentication no
-```
-
-
-sur le pc qui veut se co
+Now the future steps will have to be executed on the machine that will want to connect to the server. First of all, we will have to generate a pair of keys, one private and one public. For this we need to execute the following command:
 ```
 ssh-keygen
 ```
+_Output:_
 
+>   Generating public/private rsa key pair. <br>
+    Enter file in which to save the key (/Users/charlescoste/.ssh/id_rsa): <br>
+    /Users/charlescoste/.ssh/id_rsa already exists. <br>
+    Overwrite (y/n)? y <br>
+    Enter passphrase (empty for no passphrase):  <br>
+    Enter same passphrase again: <br>
+    Your identification has been saved in /Users/charlescoste/.ssh/id_rsa <br>
+    Your public key has been saved in /Users/charlescoste/.ssh/id_rsa.pub <br>
+    The key fingerprint is: <br>
+    SHA256: _Something_ local <br>
+    The key's randomart image is: <br>
+    _Something_
+
+Then to initialize the connection you can write the following command replacing __`bob`__ by the user on which the person must connect and __`172.16.235.12`__ by the server ip
 ```
 cat ~/.ssh/id_rsa.pub | ssh bob@172.16.235.12 "mkdir ~/.ssh -p && cat - >> ~/.ssh/authorized_keys"
 ```
+Then to connect you should use this command replacing __`172.16.235.12`__ by the server ip and __`bob`__ by the server user
+```
+ssh bob@172.16.235.12
+```
+Now you are connected with ssh without password to the server
 - - - -
 ## __Step 4__
