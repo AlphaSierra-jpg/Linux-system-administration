@@ -124,7 +124,7 @@ ssh bob@172.16.235.12
 Now you are connected with ssh without password to the server
 - - - -
 ## __Step 4__
-
+In this step we will install WordPress. First of all we have to install all the dependencies related to WordPress 
 
 ```
 sudo apt install apache2 \
@@ -142,17 +142,23 @@ sudo apt install apache2 \
                  php-xml \
                  php-zip
 ```
-
+Then we will create a folder for the server
 ```
 sudo mkdir -p /srv/www
+```
+Then we will assign rights to the folder in question
+```
 sudo chown www-data: /srv/www
+```
+The following command will download the WordPress installation file and unzip it
+```
 curl https://wordpress.org/latest.tar.gz | sudo -u www-data tar zx -C /srv/www
 ```
-
+Now the problem is that if we access the website we will see the default page of Apache (a web server creation tool). To display the WordPress configuration page we will have to initialize it. To do this we will open the web page file with the following command 
 ```
 nano /etc/apache2/sites-available/wordpress.conf
 ```
-
+You will have to copy and paste the following code inside 
 ```
 <VirtualHost *:80>
     DocumentRoot /srv/www/wordpress
@@ -168,41 +174,37 @@ nano /etc/apache2/sites-available/wordpress.conf
     </Directory>
 </VirtualHost>
 ```
-
+Then we will start the server with this command
 ```
 sudo a2ensite wordpress
 ```
+Now we need to configure the WordPress related database. With this command we can access to MySQL
+```
+sudo mysql -u root
+```
+Here we create the database
+```
+CREATE DATABASE wordpress;
+```
+With this command we are going to create a MySQL user, you can replace __`your-password`__ by a password
+```
+ CREATE USER wordpress@localhost IDENTIFIED BY 'your-password';
+```
 
 ```
-$ sudo mysql -u root
-```
-```
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 7
-Server version: 5.7.20-0ubuntu0.16.04.1 (Ubuntu)
-
-Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> CREATE DATABASE wordpress;
-Query OK, 1 row affected (0,00 sec)
-
-mysql> CREATE USER wordpress@localhost IDENTIFIED BY '<your-password>';
-Query OK, 1 row affected (0,00 sec)
-
-mysql> GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER
+ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER
     -> ON wordpress.*
     -> TO wordpress@localhost;
-Query OK, 1 row affected (0,00 sec)
+```
 
-mysql> FLUSH PRIVILEGES;
-Query OK, 1 row affected (0,00 sec)
-
-mysql> quit
-Bye
+```
+ FLUSH PRIVILEGES;
+```
+Finaly we quit the MySQL terminal  
+```
+ quit
+```
+and start MySQL
+```
+sudo service mysql start
 ```
