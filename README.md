@@ -190,13 +190,13 @@ With this command we are going to create a MySQL user, you can replace __`your-p
 ```
 CREATE USER wordpress@localhost IDENTIFIED BY 'your-password';
 ```
-
+After creating the user we will assign him the rights necessary for the operation of WordPress 
 ```
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER
     -> ON wordpress.*
     -> TO wordpress@localhost;
 ```
-
+The following command will reload the grant tables
 ```
 FLUSH PRIVILEGES;
 ```
