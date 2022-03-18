@@ -150,6 +150,10 @@ curl https://wordpress.org/latest.tar.gz | sudo -u www-data tar zx -C /srv/www
 ```
 
 ```
+nano /etc/apache2/sites-available/wordpress.conf
+```
+
+```
 <VirtualHost *:80>
     DocumentRoot /srv/www/wordpress
     <Directory /srv/www/wordpress>
