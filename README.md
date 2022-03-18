@@ -188,23 +188,28 @@ CREATE DATABASE wordpress;
 ```
 With this command we are going to create a MySQL user, you can replace __`your-password`__ by a password
 ```
- CREATE USER wordpress@localhost IDENTIFIED BY 'your-password';
+CREATE USER wordpress@localhost IDENTIFIED BY 'your-password';
 ```
 
 ```
- GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER
     -> ON wordpress.*
     -> TO wordpress@localhost;
 ```
 
 ```
- FLUSH PRIVILEGES;
+FLUSH PRIVILEGES;
 ```
 Finaly we quit the MySQL terminal  
 ```
- quit
+quit
 ```
 and start MySQL
 ```
 sudo service mysql start
 ```
+And then all you have to do is access your server page using your browser. It will be necessary to configure your account then fill in the information of the database created earlier. And congratulations you have administered a linux system and installed WordPress. You can now create the site of your dreams. 
+<br><br>
+
+Thank you for following this tutorial
+- - - -
